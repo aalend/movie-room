@@ -1,0 +1,33 @@
+.button {
+  padding: var(--gap-2xs) var(--gap-lg);
+  width: 100%;
+  background-color: var(--color-accent-900);
+  color: var(--color-neutral-100);
+  font-weight: var(--font-bold);
+  border: 0;
+  border-radius: var(--rounded-base);
+  cursor: pointer;
+  transition: all 175ms ease-in-out;
+
+  &:hover,
+  &:focus-visible,
+  &:focus-within {
+    background-color: var(--color-accent-700);
+  }
+
+  &[data-button-type='link'] {
+    background: transparent;
+    color: var(--color-neutral-300);
+    font-weight: var(--font-normal);
+
+    &:hover,
+    &:focus-visible,
+    &:focus-within {
+      color: var(--color-accent-700);
+    }
+  }
+
+  @media (min-width: 429px) {
+    width: max-content;
+  }
+}

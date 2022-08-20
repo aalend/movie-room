@@ -1,0 +1,29 @@
+@mixin generateUtilityClass($property, $map) {
+  @each $key, $value in $map {
+    &-#{$key} {
+      #{$property}: $value;
+    }
+  }
+}
+
+@mixin generateCustomProperty($prefix, $map) {
+  @each $key, $value in $map {
+    --#{$prefix}-#{$key}: #{$value};
+  }
+}
+
+@mixin generateSpace($property, $map) {
+  $sides: (inline, block, inline-start, inline-end, block-start, block-end);
+
+  @each $key, $value in $map {
+    &-#{$key} {
+      #{$property}: $value;
+    }
+
+    @each $item in $sides {
+      &-#{$item}-#{$key} {
+        #{$property}-#{$item}: $value;
+      }
+    }
+  }
+}

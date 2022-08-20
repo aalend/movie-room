@@ -1,0 +1,91 @@
+@use '../config/variables' as *;
+@use '../mixins/generators' as *;
+
+// Custom properties
+:root {
+  @include generateCustomProperty('gap', $spacing);
+  @include generateCustomProperty('font', $family);
+  @include generateCustomProperty('text', $fontSize);
+  @include generateCustomProperty('font', $fontWeight);
+  @include generateCustomProperty('leading', $lineHeight);
+  @include generateCustomProperty('tracking', $letterSpacing);
+  @include generateCustomProperty('measure', $measure);
+  @include generateCustomProperty('color', $colorPalette);
+  @include generateCustomProperty('rounded', $borderRadius);
+}
+
+// Utility Classes
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.margin {
+  @include generateSpace('margin', $spacing);
+}
+
+.padding {
+  @include generateSpace('padding', $spacing);
+}
+
+.gap {
+  @include generateUtilityClass('gap', $spacing);
+}
+
+.font {
+  @include generateUtilityClass('font-family', $family);
+  @include generateUtilityClass('font-weight', $fontWeight);
+}
+
+.text {
+  @include generateUtilityClass('font-size', $fontSize);
+  @include generateUtilityClass('color', $colorPalette);
+}
+
+.measure {
+  // Max characters per line
+  @include generateUtilityClass('max-width', $measure);
+}
+
+.leading {
+  @include generateUtilityClass('line-height', $lineHeight);
+}
+
+.tracking {
+  @include generateUtilityClass('letter-spacing', $letterSpacing);
+}
+
+.bg {
+  @include generateUtilityClass('background-color', $colorPalette);
+}
+
+.rounded {
+  @include generateUtilityClass('border-radius', $borderRadius);
+}

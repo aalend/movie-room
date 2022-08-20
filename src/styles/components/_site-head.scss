@@ -1,0 +1,21 @@
+.site-head {
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: var(--gap-base);
+
+    & > * {
+      margin-block-start: var(--gap-2xs);
+    }
+
+    @media (min-width: 660px) {
+      justify-content: space-between;
+
+      & > * {
+        margin-block-start: unset;
+      }
+    }
+  }
+}

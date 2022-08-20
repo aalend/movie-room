@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-2xs);
+
+  &__group {
+    flex-grow: 1;
+  }
+
+  input {
+    flex-grow: 1;
+    padding: var(--gap-2xs) var(--gap-base);
+    border: 0;
+    border-radius: var(--rounded-base);
+  }
+}

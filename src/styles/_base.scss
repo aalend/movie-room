@@ -1,0 +1,48 @@
+@use './config' as *;
+
+html {
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-900);
+}
+
+h1,
+h2 {
+  font-weight: var(--font-extraBold);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tight);
+}
+
+h1 {
+  font-size: var(--text-2xl);
+}
+
+h2 {
+  font-size: var(--text-xl);
+}
+
+h3 {
+  font-size: var(--text-base);
+  font-weight: var(--font-bold);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+p {
+  max-width: var(--measure-normal);
+}
+
+a {
+  display: inline-flex;
+  text-decoration: none;
+  color: currentColor;
+}
+
+.dark-mode {
+  background-color: var(--color-neutral-900);
+  color: var(--color-neutral-50);
+}

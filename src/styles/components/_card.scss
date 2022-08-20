@@ -1,0 +1,21 @@
+.card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: var(--gap-base);
+  font-weight: var(--font-bold);
+  background: var(--color-neutral-800) url('../assets/images/demo-hero.jpg')
+    no-repeat center/cover;
+  min-height: 18.5rem;
+  width: 100%;
+
+  &::before {
+    position: absolute;
+    content: '';
+    inset: 0;
+    background-image: var(--color-gradient-neutral);
+    z-index: -1;
+  }
+}

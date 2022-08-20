@@ -1,0 +1,10 @@
+.cast-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  img {
+    max-width: 9.5rem;
+    border-radius: var(--rounded-full);
+    aspect-ratio: 1;
+  }
+}
