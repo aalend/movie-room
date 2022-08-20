@@ -3,8 +3,7 @@
   align-items: center;
   position: relative;
   isolation: isolate;
-  background: var(--color-neutral-800) url('../assets/images/demo-hero.jpg')
-    no-repeat center/cover;
+  background: var(--color-neutral-800) no-repeat center/cover;
   min-height: 40vw;
 
   &::before {
