@@ -3,6 +3,7 @@ import popularMoviesView from './views/popularMoviesView';
 import trendingMoviesView from './views/trendingMoviesView';
 import topRatedMoviesView from './views/topRatedMoviesView';
 import loadMoreMoviesView from './views/loadMoreMoviesView';
+import genreMoviesView from './views/genreMoviesView';
 
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
@@ -84,11 +85,22 @@ const controlLoadMoreMovies = async function () {
   }
 };
 
+const controlMovieGenres = async function () {
+  try {
+    await model.loadMovieGenres();
+
+    genreMoviesView.render(model.state.genresList);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const init = function () {
   popularMoviesView.addHandlerFeaturedMovie(controlPopularMovies);
   trendingMoviesView.addhandlerTrendingMovies(controlTrendingMovies);
   topRatedMoviesView.addHandlerTopRatedMovies(controlTopRatedMovies);
   loadMoreMoviesView.addHandlerLoadMoreMovies(controlLoadMoreMovies);
+  genreMoviesView.addHandlerGenresMovies(controlMovieGenres);
 };
 
 init();

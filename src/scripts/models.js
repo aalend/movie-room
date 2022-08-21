@@ -9,6 +9,7 @@ export const state = {
     currentPage: 1,
     totalPages: '',
   },
+  genresList: {},
   search: {
     query: '',
     results: [],
@@ -109,3 +110,23 @@ export const loadTopRatedMovies = async function (page = 1) {
     throw error;
   }
 };
+
+export const loadMovieGenres = async function () {
+  try {
+    const response = await fetch(
+      `${API_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`
+    );
+    const { genres } = await response.json();
+
+    state.genresList = genres.map(genre => {
+      return {
+        id: genre.id,
+        name: genre.name,
+      };
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+loadMovieGenres();
