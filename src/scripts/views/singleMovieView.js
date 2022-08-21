@@ -95,7 +95,7 @@ class SingleMovieView extends View {
                 console.log(movie);
                 return `
                 <li class="swiper-slide">
-                  <a href="" aria-label="${movie.original_title}">
+                  <a href="${movie.id}" aria-label="${movie.original_title}">
                     <div class="card" style="background: url(http://image.tmdb.org/t/p/original${movie.poster_path}) no-repeat center/cover">
                       <h3>${movie.original_title}</h3>
                       <p class="flex gap-xs">

@@ -108,7 +108,6 @@ const controlSearchMovie = async function (e) {
 
     await model.loadSearchMoviesByID(inputElement);
     searchMovieView.render(model.state.search);
-    singleMovieView.render();
   } catch (error) {
     console.log(error);
   }

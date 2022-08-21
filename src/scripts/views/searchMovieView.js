@@ -11,12 +11,6 @@ class SearchMovieView extends View {
 
       return subscriberFn(e);
     });
-
-    this._parentElement.addEventListener('click', function (e) {
-      e.preventDefault();
-
-      return subscriberFn(e);
-    });
   }
 
   _generateMarkup() {
@@ -32,7 +26,7 @@ class SearchMovieView extends View {
             <span class="text-accent-900">${query}</span>
           </h2>
           <div class="divider divider--gradient"></div>
-          <ul class="adaptive-grid">
+          <ul class="adaptive-grid search-list">
           ${results
             .map(movie => {
               return `
