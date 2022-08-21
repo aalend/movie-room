@@ -11,6 +11,12 @@ class SearchMovieView extends View {
 
       return subscriberFn(e);
     });
+
+    this._parentElement.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      return subscriberFn(e);
+    });
   }
 
   _generateMarkup() {
@@ -31,7 +37,7 @@ class SearchMovieView extends View {
             .map(movie => {
               return `
               <li>
-                <a href="${movie.id}" aria-label="${movie.title}">
+                <a class="top-rated__link" href="${movie.id}" aria-label="${movie.title}">
                   <div class="card" style="background: url(${movie.poster}) no-repeat center/cover">
                     <h3>${movie.title}</h3>
                     <p class="flex gap-xs">
