@@ -2,6 +2,7 @@ import * as model from './models';
 import popularMoviesView from './views/popularMoviesView';
 import trendingMoviesView from './views/trendingMoviesView';
 import topRatedMoviesView from './views/topRatedMoviesView';
+import loadMoreMoviesView from './views/loadMoreMoviesView';
 
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
@@ -62,7 +63,22 @@ const controlTopRatedMovies = async function () {
   try {
     await model.loadTopRatedMovies();
 
-    topRatedMoviesView.render(model.state.topRatedMovies);
+    topRatedMoviesView.render(model.state.topRatedMovies.results);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const controlLoadMoreMovies = async function () {
+  try {
+    let currPage = model.state.topRatedMovies.currentPage;
+    const lastPage = model.state.topRatedMovies.totalPages;
+
+    currPage < lastPage ? currPage++ : currPage;
+    model.state.topRatedMovies.currentPage = currPage;
+
+    await model.loadTopRatedMovies(currPage);
+    loadMoreMoviesView.render(model.state.topRatedMovies.results);
   } catch (error) {
     console.log(error);
   }
@@ -72,6 +88,7 @@ const init = function () {
   popularMoviesView.addHandlerFeaturedMovie(controlPopularMovies);
   trendingMoviesView.addhandlerTrendingMovies(controlTrendingMovies);
   topRatedMoviesView.addHandlerTopRatedMovies(controlTopRatedMovies);
+  loadMoreMoviesView.addHandlerLoadMoreMovies(controlLoadMoreMovies);
 };
 
 init();

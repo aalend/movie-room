@@ -1,6 +1,6 @@
 .adaptive-grid {
   display: grid;
-  gap: var(--gap-xl);
+  gap: var(--gap-base);
   grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
 
   & > * > a {

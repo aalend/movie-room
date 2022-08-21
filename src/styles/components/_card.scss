@@ -9,6 +9,7 @@
   background: var(--color-neutral-800) no-repeat center/cover;
   min-height: 18.5rem;
   width: 100%;
+  transition: scale 175ms ease-in-out;
 
   &::before {
     position: absolute;
@@ -16,5 +17,11 @@
     inset: 0;
     background-image: var(--color-gradient-neutral);
     z-index: -1;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &:focus-within {
+    scale: 1.02;
   }
 }
