@@ -9,13 +9,6 @@ class FeaturedMovieView extends View {
     return subscriberFn();
   }
 
-  _minutesToHours(totalMinutes) {
-    const minutes = totalMinutes % 60;
-    const hours = Math.floor(totalMinutes / 60);
-
-    return `${hours}h ${minutes}m`;
-  }
-
   _generateMarkup() {
     return `
       <div class="flow padding-block-xl padding-inline-md">
@@ -27,7 +20,7 @@ class FeaturedMovieView extends View {
             </svg> ${this._data.rating}
           </span>
           <span>${this._data.genres.join(' ')}</span>
-          <span>${this._minutesToHours(this._data.runtime)}</span>
+          <span>${this.minutesToHours(this._data.runtime)}</span>
         </div>
         <h1>${this._data.title}</h1>
         <p>${this._data.overview}</p>

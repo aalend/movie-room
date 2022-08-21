@@ -1,41 +1,13 @@
 import * as model from './models';
+import { initSwiper } from './views/swiperView';
 import popularMoviesView from './views/popularMoviesView';
 import trendingMoviesView from './views/trendingMoviesView';
 import topRatedMoviesView from './views/topRatedMoviesView';
 import loadMoreMoviesView from './views/loadMoreMoviesView';
 import genreMoviesView from './views/genreMoviesView';
-
-import Swiper from 'swiper/bundle';
-import 'swiper/css/bundle';
-
-const initSwiper = function () {
-  new Swiper('.swiper', {
-    direction: 'horizontal',
-    loop: true,
-    slidesPerView: 1,
-    centeredSlides: true,
-    spaceBetween: 24,
-    keyboard: {
-      enabled: true,
-      onlyInViewport: false,
-    },
-
-    breakpoints: {
-      '@0.50': {
-        slidesPerView: 2,
-      },
-      '@0.75': {
-        slidesPerView: 3,
-      },
-      '@1.00': {
-        slidesPerView: 4,
-      },
-      '@1.50': {
-        slidesPerView: 5,
-      },
-    },
-  });
-};
+import filtredByGenreView from './views/filterByGenreView';
+import singleMovieView from './views/singleMovieView';
+import searchMovieView from './views/searchMovieView';
 
 const controlPopularMovies = async function () {
   try {
@@ -95,12 +67,61 @@ const controlMovieGenres = async function () {
   }
 };
 
+const controlFilterByGenre = async function (e) {
+  try {
+    const targetElement = e.target.closest('a');
+    const button = e.target
+      .closest('.top-rated')
+      .querySelector('.button-load-more');
+    if (!targetElement) return;
+
+    const genreID = targetElement.getAttribute('href');
+    button.innerHTML = 'No more results';
+    button.disabled = true;
+
+    await model.loadFiltredMoviesByGenre(genreID);
+    topRatedMoviesView.render(model.state.filtredMovies.results);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const controlSingleMovie = async function (e) {
+  try {
+    const targetElement = e.target.closest('.top-rated__link');
+
+    if (!targetElement) return;
+    const movieID = targetElement.getAttribute('href');
+
+    await model.loadSingleMovie(movieID);
+    singleMovieView.render(model.state.singleMovie.details);
+    initSwiper();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const controlSearchMovie = async function (e) {
+  try {
+    const inputElement = e.target.querySelector('input').value;
+    if (!inputElement) return;
+
+    await model.loadSearchMoviesByID(inputElement);
+    searchMovieView.render(model.state.search);
+    singleMovieView.render('616037');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const init = function () {
   popularMoviesView.addHandlerFeaturedMovie(controlPopularMovies);
   trendingMoviesView.addhandlerTrendingMovies(controlTrendingMovies);
   topRatedMoviesView.addHandlerTopRatedMovies(controlTopRatedMovies);
   loadMoreMoviesView.addHandlerLoadMoreMovies(controlLoadMoreMovies);
   genreMoviesView.addHandlerGenresMovies(controlMovieGenres);
+  filtredByGenreView.addHandlerFilterByGenre(controlFilterByGenre);
+  singleMovieView.addHandlerSingleMovie(controlSingleMovie);
+  searchMovieView.addHandlerSearchMovie(controlSearchMovie);
 };
-
 init();

@@ -12,7 +12,7 @@ class TrendingMoviesView extends View {
     return this._data
       .map(movie => {
         return `<li class="swiper-slide" data-id="${movie.id}">
-        <a href="#hashfromAPI" aria-label="${movie.title}">
+        <a class="top-rated__link" href="${movie.id}" aria-label="${movie.title}">
           <div class="card" style="background: url(${movie.backdrop}) no-repeat center/cover">
             <h3>${movie.title}</h3>
             <p class="flex gap-xs">
