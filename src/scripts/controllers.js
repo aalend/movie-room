@@ -120,7 +120,8 @@ const controlSearchMovie = async function (e) {
 
 const controlTrailerButton = async function (targetElement) {
   try {
-    if (targetElement) trailerButtonView.render(model.state.trailerUrl);
+    // Open trailer in new tab
+    if (targetElement) window.open(model.state.trailerUrl, '_blank');
   } catch (error) {
     console.log(error);
   }
