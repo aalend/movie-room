@@ -71,9 +71,7 @@ const controlMovieGenres = async function () {
 const controlFilterByGenre = async function (e) {
   try {
     const targetElement = e.target.closest('a');
-    const button = e.target
-      .closest('.top-rated')
-      .querySelector('.button-load-more');
+    const button = e.target.closest('.top-rated').querySelector('.button-load-more');
     if (!targetElement) return;
 
     const genreID = targetElement.getAttribute('href');
@@ -120,8 +118,7 @@ const controlSearchMovie = async function (e) {
 
 const controlTrailerButton = async function (targetElement) {
   try {
-    // Open trailer in new tab
-    if (targetElement) window.open(model.state.trailerUrl, '_blank');
+    if (targetElement) window.open(model.state.singleMovie.details.trailerUrl, '_blank');
   } catch (error) {
     console.log(error);
   }

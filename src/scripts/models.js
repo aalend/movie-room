@@ -1,10 +1,10 @@
 import movieTrailer from 'movie-trailer';
 import { API_KEY, API_URL, IMG_PATH } from './config';
+import { getJSON, createObject } from './helpers';
 
 export const state = {
   singleMovie: {
     details: {},
-    detailsImdb: {},
   },
   popularMovies: {},
   trendingMovies: {},
@@ -24,20 +24,6 @@ export const state = {
     query: '',
     results: [],
   },
-  trailerUrl: '',
-};
-
-const createObject = function (data) {
-  return {
-    id: data.id,
-    title: data.title,
-    overview: data.overview,
-    releaseDate: new Date(data.release_date).getFullYear(),
-    backdrop: `${IMG_PATH}${data.backdrop_path}`,
-    poster: `${IMG_PATH}${data.poster_path}`,
-    genre: [...data.genre_ids],
-    rating: Math.round(data.vote_average * 10) / 10,
-  };
 };
 
 export const loadPopularMovies = async function () {
@@ -83,23 +69,11 @@ export const loadFeaturedMovieDetails = async function () {
 
 export const loadSingleMovie = async function (movieID) {
   try {
-    // Get movie ID
-    const response = await fetch(
-      `${API_URL}/movie/${movieID}?api_key=${API_KEY}&language=en-US`
-    );
-    const data = await response.json();
-
-    // Get movie cast
-    const castResponse = await fetch(
-      `${API_URL}/movie/${movieID}/credits?api_key=${API_KEY}&language=en-US`
-    );
-    const { cast } = await castResponse.json();
-
-    // Get movie similar movies
-    const similarMovieResponse = await fetch(
-      `${API_URL}/movie/${movieID}/similar?api_key=${API_KEY}&language=en-US&page=1`
-    );
-    const { results } = await similarMovieResponse.json();
+    const [data, { cast }, { results }] = await Promise.all([
+      getJSON(`${API_URL}/movie/${movieID}?api_key=${API_KEY}&language=en-US`),
+      getJSON(`${API_URL}/movie/${movieID}/credits?api_key=${API_KEY}&language=en-US`),
+      getJSON(`${API_URL}/movie/${movieID}/similar?api_key=${API_KEY}&language=en-US&page=1`),
+    ]);
 
     state.singleMovie.details = {
       id: data.id,
@@ -116,18 +90,6 @@ export const loadSingleMovie = async function (movieID) {
       cast: [...cast],
       similarMovies: [...results],
     };
-
-    // Get movie Imdb ID
-    const imdbID = state.singleMovie.details.imdbId;
-    const responseImdb = await fetch(
-      `${API_URL}/find/${imdbID}?api_key=${API_KEY}&language=en-US&external_source=imdb_id`
-    );
-
-    const { movie_results } = await responseImdb.json();
-
-    state.singleMovie.detailsImdb = movie_results.map(movie =>
-      createObject(movie)
-    );
   } catch (error) {
     throw error;
   }
@@ -135,9 +97,7 @@ export const loadSingleMovie = async function (movieID) {
 
 export const loadTrendingMovies = async function () {
   try {
-    const response = await fetch(
-      `${API_URL}/trending/movie/week?api_key=${API_KEY}`
-    );
+    const response = await fetch(`${API_URL}/trending/movie/week?api_key=${API_KEY}`);
     const { results } = await response.json();
 
     state.trendingMovies = results.map(movie => createObject(movie));
@@ -152,11 +112,7 @@ export const loadTopRatedMovies = async function (page = 1) {
       `${API_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`
     );
 
-    const {
-      page: currentPage,
-      results,
-      total_pages: totalPages,
-    } = await response.json();
+    const { page: currentPage, results, total_pages: totalPages } = await response.json();
 
     state.topRatedMovies.currentPage = currentPage;
     state.topRatedMovies.totalPages = totalPages;
@@ -164,10 +120,7 @@ export const loadTopRatedMovies = async function (page = 1) {
     if (page) {
       let newResults;
       newResults = results.map(movie => createObject(movie));
-      state.topRatedMovies.results = [
-        ...state.topRatedMovies.results,
-        ...newResults,
-      ];
+      state.topRatedMovies.results = [...state.topRatedMovies.results, ...newResults];
     }
   } catch (error) {
     throw error;
@@ -176,9 +129,7 @@ export const loadTopRatedMovies = async function (page = 1) {
 
 export const loadMovieGenres = async function () {
   try {
-    const response = await fetch(
-      `${API_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`
-    );
+    const response = await fetch(`${API_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`);
     const { genres } = await response.json();
 
     state.genresList = genres.map(genre => {
@@ -195,7 +146,7 @@ export const loadMovieGenres = async function () {
 export const loadFiltredMoviesByGenre = async function (genreID) {
   try {
     const response = await fetch(`
-    ${API_URL}/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$$1&with_genres=${genreID}&with_watch_monetization_types=flatrate`);
+    ${API_URL}/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&page=$1&with_genres=${genreID}`);
 
     const { results } = await response.json();
 
@@ -221,10 +172,16 @@ export const loadSearchMoviesByID = async function (query) {
 
 export const loadTrailerForMovie = async function (tmdbId) {
   try {
-    const data = await movieTrailer(null, {
+    const trailerUrl = await movieTrailer(null, {
       tmdbId: tmdbId,
     });
-    state.trailerUrl = data;
+
+    state.singleMovie.details = {
+      ...state.singleMovie.details,
+      trailerUrl,
+    };
+
+    console.log(state.singleMovie);
   } catch (error) {
     throw error;
   }

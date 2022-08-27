@@ -5,9 +5,7 @@ class TrailerButtonView extends View {
 
   addHandlerTrailerButton(subscriberFn) {
     this._parentElement.addEventListener('click', function (e) {
-      const targetElement = e.target.closest(
-        '.button[data-button-type="primary"]'
-      );
+      const targetElement = e.target.closest('.button[data-button-type="primary"]');
 
       if (!targetElement) return;
 
