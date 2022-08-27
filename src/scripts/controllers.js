@@ -8,6 +8,7 @@ import genreMoviesView from './views/genreMoviesView';
 import filtredByGenreView from './views/filterByGenreView';
 import singleMovieView from './views/singleMovieView';
 import searchMovieView from './views/searchMovieView';
+import trailerButtonView from './views/trailerButtonView';
 
 const controlPopularMovies = async function () {
   try {
@@ -94,7 +95,11 @@ const controlSingleMovie = async function (e) {
     const movieID = targetElement.getAttribute('href');
 
     await model.loadSingleMovie(movieID);
+
+    // fetch url for trailer
+    await model.loadTrailerForMovie(movieID);
     singleMovieView.render(model.state.singleMovie.details);
+
     initSwiper();
   } catch (error) {
     console.log(error);
@@ -113,6 +118,14 @@ const controlSearchMovie = async function (e) {
   }
 };
 
+const controlTrailerButton = async function (targetElement) {
+  try {
+    if (targetElement) trailerButtonView.render(model.state.trailerUrl);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const init = function () {
   popularMoviesView.addHandlerFeaturedMovie(controlPopularMovies);
   trendingMoviesView.addhandlerTrendingMovies(controlTrendingMovies);
@@ -122,5 +135,6 @@ const init = function () {
   filtredByGenreView.addHandlerFilterByGenre(controlFilterByGenre);
   singleMovieView.addHandlerSingleMovie(controlSingleMovie);
   searchMovieView.addHandlerSearchMovie(controlSearchMovie);
+  trailerButtonView.addHandlerTrailerButton(controlTrailerButton);
 };
 init();

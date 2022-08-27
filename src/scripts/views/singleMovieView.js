@@ -92,10 +92,9 @@ class SingleMovieView extends View {
             ${similarMovies
               .slice(0, 5)
               .map(movie => {
-                console.log(movie);
                 return `
                 <li class="swiper-slide">
-                  <a href="${movie.id}" aria-label="${movie.original_title}">
+                  <a class="top-rated__link" href="${movie.id}" aria-label="${movie.original_title}">
                     <div class="card" style="background: url(http://image.tmdb.org/t/p/original${movie.poster_path}) no-repeat center/cover">
                       <h3>${movie.original_title}</h3>
                       <p class="flex gap-xs">

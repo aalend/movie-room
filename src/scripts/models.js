@@ -1,3 +1,4 @@
+import movieTrailer from 'movie-trailer';
 import { API_KEY, API_URL, IMG_PATH } from './config';
 
 export const state = {
@@ -23,6 +24,7 @@ export const state = {
     query: '',
     results: [],
   },
+  trailerUrl: '',
 };
 
 const createObject = function (data) {
@@ -212,6 +214,17 @@ export const loadSearchMoviesByID = async function (query) {
 
     state.search.query = query;
     state.search.results = results.map(movie => createObject(movie));
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const loadTrailerForMovie = async function (tmdbId) {
+  try {
+    const data = await movieTrailer(null, {
+      tmdbId: tmdbId,
+    });
+    state.trailerUrl = data;
   } catch (error) {
     throw error;
   }
